@@ -17,14 +17,8 @@ with open('day7_input', 'r') as f:
             '.', '').replace('bag', '').split(',')
         # Removing the number for first excercise:
         child_bags = {i.strip().partition(' ')[-1] for i in child_bags}
-        if parent_bag in G:
-            # K.add_nodes_from(child_bags)
-            G.add_edges_from([(parent_bag, node) for node in child_bags])
-        else:
-            # K.add_node(parent_bag)
-            # K.add_nodes_from(child_bags)
-            # print([(parent_bag, node) for node in child_bags])
-            G.add_edges_from([(parent_bag, node) for node in child_bags])
+        G.add_edges_from([(parent_bag, node) for node in child_bags])
+
 
     gold_parents= ((list(nx.edge_dfs(G, 'shiny gold', orientation='reverse'))))
     result = {node[0] for node in gold_parents}
