@@ -1,49 +1,50 @@
-f = open('day8_input_test', 'r').readlines()
-orig_data = [(f.strip().split(' ')) for f in f]
+import copy
 
-finish = False
+f = open('day8_input', 'r').readlines()
+orig_data = [f.strip().split(' ') for f in f]
 
 
-def flip_code(data, i):
-    if data[i][0] == 'jmp':
-        data[i][0] = 'nop'
-    else:
-        data[i][0] = 'jmp'
+def fix_it(changed_index=0):
+    test_data = copy.deepcopy(orig_data)
+    if changed_index == 0:
+        fixed = is_it_fixed(test_data)
+        if fixed:
+            return True
+    for index in range(len(test_data)):
+        if test_data[index][0] != 'acc' and changed_index < index:
+            test_data[index][0] = 'jmp' if test_data[index][0] == 'acc' else 'nop'
+            changed_index = index
+            print(test_data)
+            fixed = is_it_fixed(test_data)
+            if fixed:
+                print(fixed)
+                return True
+            else:
+                return fix_it(changed_index)
 
-changed_index = -1
-while finish is not True:
-    data = orig_data.copy()
+
+def is_it_fixed(data):
+    print('---------------New Run--------------')
     acc = 0
-    changed = False
-    history = []
     i = 0
-    changed_index += 1
+    history = []
     while True:
-        print(f'{i}, {data[i][0]}, {data[i][1]} history: {history}, changed_index: {changed_index}')
-        if changed is False and data[i][0] != 'acc' and changed_index < i:
-            print('flippin')
-            flip_code(data, i)
-            changed_index = i
-            changed = True
+        if i == len(data):
+            return True, acc
         command, value = data[i]
-
+        # print(i, command, value)
         if i in history:
-            print('nem jo')
-            print(data)
-            break
-        if i == len(data) - 1:
-            print('vege')
-            finish = True
-            print(data)
-            break
+            return False
         history.append(i)
         if command == 'nop':
             i += 1
         if command == 'acc':
             acc += int(value)
+            print(acc)
             i += 1
         if command == 'jmp':
             i += int(value)
 
-print(history)
-print(acc)
+
+res = fix_it()
+print(res)
