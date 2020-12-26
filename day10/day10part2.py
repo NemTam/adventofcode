@@ -1,4 +1,4 @@
-f = open('day10_input', 'r').readlines()
+f = open('day10_input_test', 'r').readlines()
 data = [int(str.strip()) for str in f]
 sorted_data = sorted(data)
 
@@ -40,6 +40,6 @@ def super_bad_recursive_optimized(current_val, index):
 super_bad_recursive_optimized(START, -1)
 print(accumulator)
 
-# accumulator = 0
-# recursive({START}, -1)
-# print(accumulator)
+accumulator = 0
+super_bad_recursive({START}, -1)
+print(accumulator)

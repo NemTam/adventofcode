@@ -1,7 +1,7 @@
 import functools
 import math
 
-f = open('day10_input', 'r').readlines()
+f = open('day10_input_test', 'r').readlines()
 data = [int(str.strip()) for str in f]
 sorted_data = sorted(data)
 
@@ -37,6 +37,7 @@ def recursive_optimized(pos):
         else:
             return recursive_optimized(pos - 1)
 
+print(recursive(sorted_data))
 
 last_item_index = len(sorted_data) - 1
 print(recursive_optimized(last_item_index))
